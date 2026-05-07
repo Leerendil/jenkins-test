@@ -11,10 +11,11 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Deploy to Nexus') {
-            when { branch 'master' }
+        stage('Archive Artifact') {
+            when { branch 'main' }
             steps {
-                sh 'mvn package'
+                sh 'mvn package -DskipTests'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
